@@ -1,0 +1,39 @@
+{
+	"code": 0,
+	"msg": "",
+	"data": [
+
+		{
+			"name": "maintain",
+			"title": "我的修理",
+			"icon": "layui-icon-app",
+			"jump": "maintainResp/list"
+		},
+		{
+			"name": "userCenter",
+			"title": "用户中心",
+			"icon": "layui-icon-app",
+			"spread" : false,
+			"list" : [
+				{
+					"name": "updatePwd",
+					"title": "修改密码",
+					"icon": "layui-icon-group",
+					"jump": "userCenter/updatePwd"
+				},
+				{
+					"name": "workInfo",
+					"title": "个人信息",
+					"icon": "layui-icon-group",
+					"jump": "worker/workerInfoPlay"
+				},
+				{
+					"name": "workInfo",
+					"title": "信息修改",
+					"icon": "layui-icon-group",
+					"jump": "worker/workerInfo"
+				}
+			]
+		}
+	]
+}

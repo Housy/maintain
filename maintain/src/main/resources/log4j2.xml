@@ -1,0 +1,20 @@
+<!-- status为不记录log4j本身的日志 -->
+<configuration status="OFF">
+    <appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <!-- ThresholdFilter相当于拦截器.info以上的命令不会被拦截. -->
+            <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n"/>
+        </Console>
+    </appenders>
+    <loggers>
+        <root level="info">
+            <appender-ref ref="Console"/>
+            <!--<appender-ref ref="Error" />-->
+        </root>
+        <Logger level="info" name="com.boyunmkt.logger.kafka.consumer" additivity="false">
+            <!--消费的控制台就不打印了，调试的时候可以打开-->
+            <!--<appender-ref ref="Console"/>-->
+        </Logger>
+    </loggers>
+</configuration>

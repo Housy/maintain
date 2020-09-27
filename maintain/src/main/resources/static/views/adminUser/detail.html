@@ -1,0 +1,55 @@
+
+<script type="text/html" template lay-url="api/adminUser/getById?id={{d.params.id}}">
+
+<table class="layui-table">
+  <colgroup>
+    <col width="50%">
+    <col width="50%">
+    <col>
+  </colgroup>
+  <tbody>
+	<tr>
+      <td>ID</td>
+      <td>{{d.data.id}}</td>
+    </tr>
+    <tr>
+      <td>用户名</td>
+      <td>{{d.data.username}}</td>
+    </tr>
+    <tr>
+      <td>头像</td>
+      <td>{{ wrapImage(d.data.avatarUrl) }}</td>
+    </tr>
+    <tr>
+      <td>手机号</td>
+      <td>{{d.data.phone}}</td>
+    </tr>
+    <tr>
+      <td>性别</td>
+      <td>{{d.data.gender == 1 ? '男' : '女'}}</td>
+    </tr>
+
+    <tr>
+      <td>生日</td>
+      <td>{{ms2str(d.data.birthday, 'date')}}</td>
+    </tr>
+
+    <tr>
+      <td>角色</td>
+      <td>{{d.data.role}}</td>
+    </tr>
+    <tr>
+      <td>权限</td>
+      <td>{{d.data.permissions.join(',')}}</td>
+    </tr>
+
+    <tr>
+      <td>是否禁用</td>
+      <td>{{d.data.isDisabled == 1 ? '已禁用' : '未禁用'}}</td>
+    </tr>
+
+  </tbody>
+</table>
+  
+</script>
+

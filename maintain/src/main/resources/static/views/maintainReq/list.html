@@ -1,0 +1,203 @@
+<!-- 面包屑导航 -->
+<div class="layui-card layadmin-header"></div>
+
+<div class="layui-fluid">
+  <div class="layui-card">
+    <!--搜索条件的form-->
+    <form class="layui-form search-form layui-card-header layuiadmin-card-header-auto" lay-filter="app-content-list">
+      <div class="layui-form-item">
+        <div class="layui-inline">
+          <label class="layui-form-label">ID</label>
+          <div class="layui-input-inline">
+            <input type="text" name="id" placeholder="请输入ID" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+
+        <div class="layui-inline">
+          <label class="layui-form-label">维修状态</label>
+          <div class="layui-input-inline">
+            <select name="role" lay-filter="role">
+              <option value="">所有</option>
+              <option value="0">等待维修</option>
+              <option value="1">维修完毕</option>
+              <option value="2">无法维修</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="layui-inline">
+          <label class="layui-form-label">发起维修时间</label>
+          <div class="layui-input-inline">
+            <input type="text" id="timeRange" name="timeRange" placeholder="请选择时间区间" autocomplete="off" class="layui-input" readonly>
+          </div>
+        </div>
+
+        <div class="layui-inline">
+          <button type="button" class="layui-btn" lay-submit lay-filter="LAY-SEARCH-BTN">搜索</button>
+          <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+      </div>
+    </form>
+
+    <div class="layui-card-body">
+
+      <!--上方功能按钮-->
+      <div class="function-list">
+        <button class="layui-btn layuiadmin-btn-list" data-type="add"><i class="layui-icon layui-icon-add-1"></i>点击报修</button>
+        <button class="layui-btn layui-btn-danger layuiadmin-btn-list" data-type="batchdel"><i class="layui-icon layui-icon-delete"></i>删除</button>
+      </div>
+
+      <!--原始表格-->
+      <table id="LAY-TABLE" lay-filter="LAY-TABLE"></table>
+
+      <!--操作列-->
+      <script type="text/html" id="toolbar">
+        <div class="table-btns">
+          <a class="layui-btn layui-btn-xs" lay-event="detail"><i class="layui-icon layui-icon-list"></i>详情</a>
+          <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+          <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
+        </div>
+      </script>
+
+    </div>
+  </div>
+</div>
+
+<script>
+
+    var module = 'maintain';
+    var moduleName = '我的报修';
+
+    layui.use(['common'], function(){
+
+        renderDate({
+            min : '1900-1-1'
+        });
+
+        var pageList = new PageList({module : module});
+        pageList.render({
+            //列配置
+            cols: [[
+                {field: 'id', title: 'ID', sort : true},
+                {field: 'studentId', title: '学生学号', sort : true},
+                {field: 'status', title: '维修状态', templet : function(d){
+                  if(d.status == 1) {
+                    return '维修完毕';
+                  }else if(d.status == 0) {
+                    return '等待维修';
+                  } else {
+                    return "无法维修";
+                  }
+                }},
+                {field: 'reqTime', title: '发起维修时间', sort : true},
+                {field: 'respTime', title: '维修响应时间', sort : true},
+                {field: 'type', title: '维修类型', templet : function(d){
+                  if(d.type == 1) {
+                    return '电器问题';
+                  }else if(d.type == 2) {
+                    return '阳台故障';
+                  }else if(d.type == 3) {
+                    return '桌椅问题';
+                  }else {
+                    return '门窗';
+                  }
+                }},
+                {field: 'content', title: '维修内容', sort : true},
+                {field: 'buildNum', title: '建筑号', sort : true},
+                {title: '操作',  align: 'center', toolbar: '#toolbar'}
+            ]],
+          initSort : {
+            field : 'id',
+            type : 'desc'
+          },
+          //菜单上面的工具栏
+          funs : {
+            other : function(){
+              var ids = pageList.getCheckedIds();
+              mlayer.success(ids.join(','));
+            }
+          },
+          //表格内的开关
+          tableSwitches : [
+            {
+              field : 'isDisabled'
+            },
+            {
+              field : 'isVip'
+            }
+          ],
+          //各种回调
+          callbacks : {
+            add : {
+              title : '添加' + moduleName,
+              confirmMsg : '确定要提交吗？',
+              debug : false,
+              //页面打开回调
+              openCallback : function(){
+                //渲染form表单，参数为自定义验证
+                renderFormPage({
+
+                });
+                renderDate({
+                  elem : '[name=birthday]',
+                  range : false,
+                  min: '1990-1-1'
+                });
+              },
+              //表单提交前回调
+              submitCallback : function(formData){
+                formData.permissions = getCheckboxValues('.permissions');
+                formData.birthday = str2ms(formData.birthday);
+                //提交之前回调
+                console.info('提交之前回调');
+              },
+              isFull : false, //是否全屏
+              area : ['560px', '500px']
+            },
+            edit : {
+              title : '编辑' + moduleName,
+              confirmMsg : '确定要提交吗？',
+              debug : false,
+              //页面打开回调
+              openCallback : function(row){
+                //渲染form表单，参数为自定义验证
+                renderFormPage({
+
+                });
+              },
+              //数据回显回调
+              fillDataCallback : function(row){
+                row.permissions.forEach(function(o){
+                  $('.permissions[value='+o+']').prop('checked', true);
+                })
+                renderDate({
+                  elem : '[name=birthday]',
+                  value : new Date(parseInt(row.birthday)),
+                  range : false,
+                  min: '1990-1-1'
+                });
+              },
+              //提交之前的回调
+              submitCallback : function(formData){
+                formData.permissions = getCheckboxValues('.permissions');
+                formData.birthday = str2ms(formData.birthday);
+              },
+              isFull : false,
+              area : ['560px', '500px']
+            },
+            tableTool : {
+              callback : function (obj) {
+                var data = obj.data; //获得当前行数据
+                var event = obj.event; //获得 lay-event 对应的值
+                var tr = obj.tr; //获得当前行 tr 的DOM对象
+                if(event == 'other') {
+                  layer.msg('其他按钮');
+                }
+              },
+
+            }
+          },
+
+        });
+    });
+</script>

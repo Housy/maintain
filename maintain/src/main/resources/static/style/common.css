@@ -1,0 +1,456 @@
+/*普通a标签的样式*/
+.a {color: blue; cursor: pointer;}
+
+/*不同的文字提示背景*/
+/*蓝色*/
+.info-blue {
+    height: 22px;
+    line-height: 22px;
+    padding: 0 5px;
+    font-size: 12px;
+
+    display: inline-block;
+    color: #fff;
+    white-space: nowrap;
+    text-align: center;
+    border: none;
+    border-radius: 2px;
+
+    background-color: #1E9FFF;
+}
+.info-center{
+    margin-top: 9px;
+}
+/*绿色*/
+.info-green {
+    height: 22px;
+    line-height: 22px;
+    padding: 0 5px;
+    font-size: 12px;
+
+    display: inline-block;
+    color: #fff;
+    white-space: nowrap;
+    text-align: center;
+    border: none;
+    border-radius: 2px;
+
+    background-color: #009688;
+}
+
+/*黄色*/
+.info-yellow {
+    height: 22px;
+    line-height: 22px;
+    padding: 0 5px;
+    font-size: 12px;
+
+    display: inline-block;
+    color: #fff;
+    white-space: nowrap;
+    text-align: center;
+    border: none;
+    border-radius: 2px;
+
+    background-color: #FFB800;
+}
+/*红色*/
+.info-red {
+    height: 22px;
+    line-height: 22px;
+    padding: 0 5px;
+    font-size: 12px;
+
+    display: inline-block;
+    color: #fff;
+    white-space: nowrap;
+    text-align: center;
+    border: none;
+    border-radius: 2px;
+
+    background-color: #FF5722;
+}
+
+/*灰色*/
+.info-grey {
+    height: 22px;
+    line-height: 22px;
+    padding: 0 5px;
+    font-size: 12px;
+
+    display: inline-block;
+    color: #fff;
+    white-space: nowrap;
+    text-align: center;
+    border: none;
+    border-radius: 2px;
+
+    border: 1px solid #e6e6e6;
+    background-color: #FBFBFB;
+    color: #C9C9C9;
+    opacity: 1;
+}
+/*银色*/
+.info-silvery {
+    height: 22px;
+    line-height: 22px;
+    padding: 0 5px;
+    font-size: 12px;
+
+    display: inline-block;
+    color: #fff;
+    white-space: nowrap;
+    text-align: center;
+    border: none;
+    border-radius: 2px;
+
+    border: 1px solid #e6e6e6;
+    background-color: #c6c6c6;
+    opacity: 1;
+}
+
+/*金色*/
+.info-goldren {
+    height: 22px;
+    line-height: 22px;
+    padding: 0 5px;
+    font-size: 12px;
+
+    display: inline-block;
+    color: #fff;
+    white-space: nowrap;
+    text-align: center;
+    border: none;
+    border-radius: 2px;
+
+    border: 1px solid #e6e6e6;
+    background-color: #ffc900;
+    opacity: 1;
+}
+
+/*银色*/
+.info-silvery {
+    height: 22px;
+    line-height: 22px;
+    padding: 0 5px;
+    font-size: 12px;
+
+    display: inline-block;
+    color: #fff;
+    white-space: nowrap;
+    text-align: center;
+    border: none;
+    border-radius: 2px;
+
+    border: 1px solid #e6e6e6;
+    background-color: #c6c6c6;
+    opacity: 1;
+}
+
+/*金色*/
+.info-goldren {
+    height: 22px;
+    line-height: 22px;
+    padding: 0 5px;
+    font-size: 12px;
+
+    display: inline-block;
+    color: #fff;
+    white-space: nowrap;
+    text-align: center;
+    border: none;
+    border-radius: 2px;
+
+    border: 1px solid #e6e6e6;
+    background-color: #ffc900;
+    opacity: 1;
+}
+
+.info {
+    height: 22px;
+    line-height: 22px;
+    padding: 0 5px;
+    font-size: 12px;
+
+    display: inline-block;
+    color: #fff;
+    white-space: nowrap;
+    text-align: center;
+    border: none;
+    border-radius: 2px;
+
+    border: 1px solid #C9C9C9;
+    background-color: #fff;
+    color: #555;
+}
+
+/*必填*/
+span.required {color:red;margin-right: 5px;font-weight: bold;}
+
+.layui-form .readonly{
+    border: none !important;
+    padding-left: 0 !important;
+}
+
+.layui-form .layui-textarea.readonly{
+    padding-top: 9px !important;
+}
+
+.custom-form-danger{
+    border:1px solid #FF5722!important;
+}
+
+/*自定义表单样式*/
+.custom-form {
+    width: 750px;
+    margin: 0 auto;
+    padding-top: 20px;
+}
+
+.custom-form .layui-input-inline{
+    width: 475px;
+}
+
+.custom-form .layui-form-label{
+    width:140px;
+}
+
+.custom-form .form-submit-btn{
+    width:360px;
+}
+
+/*上传模块*/
+.form-upload .form-upload-btn {
+    width:auto !important;
+}
+
+/*上传模块*/
+.form-upload .form-upload-preview-file {
+    font-size: 30px;
+}
+
+.form-upload .form-upload-preview-image{
+    height:100%;
+}
+
+.form-upload-preview-container {
+    width:100px;
+	line-height: 38px;
+    padding: 0 !important;
+    display:flex;
+}
+
+.form-upload-preview-container img{
+    width:100%;
+}
+
+.form-upload-preview-delete{
+	margin-left: 6px;
+	cursor: pointer;
+}
+
+.form-upload-preview-delete:hover{
+	color:blue;
+}
+
+/*隐藏相册下面的数字*/
+.layui-layer-imgbar{display: none !important;}
+
+/*steps*/
+.steps{
+    width: 445px; margin: 40px auto;
+}
+.steps .step-text{
+    position: absolute;
+    width: 100px;
+    top: -30px;
+    left: -47px;
+    text-align: center;
+}
+
+.steps .step-disabled{
+    color:#e2e2e2;
+}
+.steps .step-bg{
+    background: rgb(0, 150, 136);
+}
+.steps .step-O-wrap{
+    position: relative;
+}
+.steps .step-O{
+    border: 2px solid #009688;
+}
+.steps .step-o {
+    z-index: 1;
+}
+
+.btn-center {
+    margin: 20px auto;
+    display: block;
+}
+
+.form-tip {
+    padding: 0px 0!important;
+}
+
+.form-tip-red{
+	color: red !important;
+	padding: 0px 0!important;
+}
+
+.form-tip-green{
+	color: #390 !important;
+	padding: 0px 0!important;
+}
+
+.text-center{
+	text-align: center;
+}
+
+.layui-table-cell{
+	height : auto !important;
+    word-wrap: break-word !important;
+    line-height: 20px !important;
+    overflow: hidden !important;
+    white-space: inherit !important;
+    word-break: break-all !important;
+}
+
+.native-layui-table .layui-table .layui-table-cell{
+	height: 28px !important;
+    line-height: 28px !important;
+    padding: 0 15px !important;
+    position: relative !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+}
+
+/*表格按钮*/
+.table-custom-btn {
+    margin: 3px 0;
+}
+
+.fly-panel{margin-bottom: 15px; border-radius: 2px; background-color: #fff; box-shadow: 0 1px 2px 0 rgba(0,0,0,.05);}
+.fly-panel[pad20]{padding: 20px;}
+.fly-panel-title{position: relative; height: 50px; line-height: 50px; padding: 0 15px; border-bottom: 1px dotted #E9E9E9; color: #333; border-radius: 2px 2px 0 0; font-size: 14px;}
+.fly-panel-main{padding: 10px 15px; line-height: 26px;}
+.fly-panel-border{border: 1px solid #e6e6e6; box-shadow: none;}
+.fly-panel-border .fly-panel-title{border-bottom: 1px solid #e6e6e6;}
+
+.money {
+	color : #390;
+}
+
+.table-btns, .table-infos{
+	display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: space-around;
+}
+
+/*表格的按钮样式*/
+.table-btns *, .table-infos *{
+	margin:2px !important;
+}
+
+/*html弹框内边距*/
+.mlayer-content {
+	padding: 20px;
+	line-height: 22px;
+}
+
+/*表单禁用样式*/
+.disabled.layui-form input{
+	cursor: not-allowed;
+}
+
+.disabled.layui-form textarea{
+	cursor: not-allowed;
+}
+
+.disabled.layui-form button{
+	cursor: not-allowed;
+}
+
+.disabled.layui-form select{
+	cursor: not-allowed;
+}
+
+.disabled {
+	cursor: not-allowed;
+}
+
+.clear{clear: both;}
+
+.function-list{
+	padding: 10px 0;
+}
+
+.layui-tab-content{padding-left:0; padding-right:0;}
+
+/*.UPDATE [lay-submit] {width:100%;}*/
+/*.ADD [lay-submit] {width:100%;}*/
+
+.ADD .layui-form-label, .UPDATE .layui-form-label {
+    width:110px;
+}
+
+.ADD .layui-input-inline, .UPDATE .layui-input-inline{
+    width: 300px;
+}
+
+.toast {
+    left:0 !important;
+    top:0 !important;
+}
+
+
+.form-upload-multiple-preview{
+    display:flex;
+    flex-wrap:wrap;
+    padding-top: 10px;
+}
+
+.form-upload-multiple-preview-item{
+    width: 200px;
+    height: 200px;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 2px;
+    margin-left:30px;
+    position: relative;
+    border-color: #e6e6e6;
+    padding: 10px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+.form-upload-multiple-preview-item:hover {
+    border-color:#009688;
+}
+
+.form-upload-multiple-preview-item .form-upload-preview-image{
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.form-upload-preview-image-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-upload-multiple-preview-item-close {
+    position: absolute;
+    top:0;
+    right:0;
+    font-size:18px;
+}
+
+.form-upload-multiple-preview-item-close a {
+    cursor: pointer;
+}

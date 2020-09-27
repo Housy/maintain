@@ -1,0 +1,44 @@
+{
+	"code": 0,
+	"msg": "",
+	"data": [
+		{
+			"name": "user",
+			"title": "用户管理",
+			"icon": "layui-icon-app",
+			"jump": "user/list"
+		},
+		{
+			"name": "dormitory",
+			"title": "宿舍管理",
+			"icon": "layui-icon-app",
+			"jump": "dormitory/list"
+		},
+		{
+			"name": "worker",
+			"title": "维修工管理",
+			"icon": "layui-icon-app",
+			"jump": "worker/list"
+		},
+		{
+			"name": "maintain",
+			"title": "维修记录",
+			"icon": "layui-icon-app",
+			"jump": "maintain/list"
+		},
+		{
+			"name": "userCenter",
+			"title": "用户中心",
+			"icon": "layui-icon-app",
+			"spread" : false,
+			"list" : [
+				{
+					"name": "updatePwd",
+					"title": "修改密码",
+					"icon": "layui-icon-group",
+					"jump": "userCenter/updatePwd"
+				}
+			]
+		}
+	]
+}

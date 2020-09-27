@@ -1,0 +1,151 @@
+
+<script type="text/html" template>
+    <link rel="stylesheet" href="{{ layui.setter.base }}style/login.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+
+<style>
+
+    .layadmin-user-login{
+        background-image: url(images/login-bg.jpg);
+        position:fixed;
+        top: 0;
+        left: 0;
+        width:100%;
+        height:100%;
+        min-width: 1000px;
+        z-index:-10;
+        zoom: 1;
+        background-color: #fff;
+        background-repeat: no-repeat;
+        background-size: cover;
+        -webkit-background-size: cover;
+        -o-background-size: cover;
+        background-position: center 0;
+        filter: blur(20px);
+    }
+
+    .layadmin-user-login-main{
+        background:#f2f2f2;
+        height:270px;
+        position: absolute;
+        margin: auto;
+        left: 0px;
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        display:none;
+    }
+
+    .layadmin-user-login-header h2{
+        margin-bottom: -23px;
+        font-size: 20px;
+    }
+
+</style>
+
+
+<div class="layadmin-user-login layadmin-user-display-show" id="LAY-user-login" style="display: none;">
+</div>
+
+<div class="layadmin-user-login-main">
+    <div class="layadmin-user-login-box layadmin-user-login-header">
+        <h2>中北大学宿舍报修管理系统</h2>
+    </div>
+    <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
+        <div class="layui-form-item">
+            <label class="layadmin-user-login-icon layui-icon layui-icon-username" for="LAY-user-login-username"></label>
+            <input type="text" name="username" id="LAY-user-login-username" lay-verify="required" placeholder="用户名" class="layui-input">
+        </div>
+        <div class="layui-form-item">
+            <label class="layadmin-user-login-icon layui-icon layui-icon-password" for="LAY-user-login-password"></label>
+            <input type="password" name="password" id="LAY-user-login-password" lay-verify="required" placeholder="密码" class="layui-input">
+        </div>
+
+        <div class="layui-form-item">
+            <button id="login-btn" class="layui-btn layui-btn-fluid" lay-submit lay-filter="login">登 入</button>
+        </div>
+        <div class="layui-form-item" style="margin-bottom: 20px;">
+            <a lay-href="/userCenter/register" class="layadmin-user-jump-change layadmin-link" style="margin-top: 7px;">注 册</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['common'], function(){
+
+        later(function(){
+            $('.layadmin-user-login-main').show();
+        },100);
+
+        var redirect = 'index.html';
+        if(layui.router().search.redirect != null) {
+            redirect = redirect + '#' + decodeURIComponent(layui.router().search.redirect);
+        }
+// 	initVerifyCodeImg();
+        form.verify({
+            required : function(val, item){
+                if($.trim(val) == '') {
+                    var name = $(item).attr('name');
+                    if(name == 'username') {
+                        return '请输入用户名';
+                    }else if(name == 'password') {
+                        return '请输入密码';
+                    }
+                    return '不能为空';
+                }
+            },
+            code : function(val){
+                var result = Net.post('checkVerifyCode', {code : val});
+                if(!result.data) {
+                    changeVerifyCode();
+                    return '验证码错误';
+                }
+            }
+        });
+
+        defenderCallback({
+            cancel : function(){
+                Lock.unlock();
+                $('#login-btn').html('登录');
+            },
+            pass : function(){
+                Lock.unlock();
+                $('#login-btn').click();
+            }
+        });
+
+        //登录按钮事件
+        form.on("submit(login)",function(data){
+            var username = $('input[name=username]').val().trim();
+            var password = $('input[name=password]').val().trim();
+// 		var code = $('input[name=code]').val().trim();
+            $('#login-btn').html('登录中...');
+            ajaxFormSubmit('doLogin', {username : username , password : password}, function (result) {
+                if(result.code == 0) {
+                    mlayer.success('登录成功，正在跳转...');
+                    later(function(){
+                        location.href = redirect;
+                    }, 1000)
+                }else {
+//                 changeVerifyCode();
+                    mlayer.error(result.msg);
+                    $('#login-btn').html('登录');
+                }
+            }, function(result){
+                changeVerifyCode();
+                mlayer.error(result.msg);
+                Lock.unlock();
+                $('#login-btn').html('登录');
+            });
+            return false;
+        });
+
+
+        $(document).on('keydown', function(e) {
+            var keyCode = e.keyCode;
+            if(keyCode == 13) {
+                $("#login-btn").click();
+            }
+        });
+    });
+</script>

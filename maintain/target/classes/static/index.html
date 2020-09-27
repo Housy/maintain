@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>中北大学宿舍报修管理系统</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="icon" href="favic.ico">
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="style/common.css" media="all">
+    <!-- pace插件 -->
+    <script src="js/pace-1.0.2/pace.js"></script>
+    <link href="js/pace-1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet" />
+    <script>
+    /^http(s*):\/\//.test(location.href) || alert('请先部署到 localhost 下再访问');
+    </script>
+  </head>
+  <body>
+    <div id="LAY_app"></div>
+    <script src="layui/layui.js"></script>
+    <script>
+    layui.config({
+      base: '' //指定 layuiAdmin 项目路径，现在放在了根目录下
+      ,version: new Date().getTime()
+    }).use('index');
+    </script>
+  </body>
+</html>
+
+

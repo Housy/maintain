@@ -1,0 +1,59 @@
+
+<script type="text/html" template lay-url="api/adminUser/getById?id={{d.params.id}}">
+
+<table class="layui-table">
+  <colgroup>
+    <col width="50%">
+    <col width="50%">
+    <col>
+  </colgroup>
+  <tbody>
+	<tr>
+      <td>ID</td>
+      <td>{{d.data.id}}</td>
+    </tr>
+
+    <tr>
+      <td>维修状态</td>
+      <td>{if(d.data.status == 1) return '维修完毕';
+        else if(d.data.status == 0) return '等待维修';
+        else return "无法维修";}</td>
+    </tr>
+    <tr>
+      <td>学生学号</td>
+      <td>{{d.data.studentId}}</td>
+    </tr>
+    <tr>
+      <td>手机号</td>
+      <td>{{d.data.phone}}</td>
+    </tr>
+
+    <tr>
+      <td>发起维修时间</td>
+      <td>{{ms2str(d.data.reqTime, 'date')}}</td>
+    </tr>
+    <tr>
+      <td>维修处理时间</td>
+      <td>{{ms2str(d.data.respTime, 'date')}}</td>
+    </tr>
+    <tr>
+      <td>维修类型</td>
+      <td>{if(d.data.status == 1) return '电器问题';
+        else if(d.data.status == 3) return '桌椅问题';
+        else if(d.data.status == 2) return '阳台故障';
+        else return "门窗";}</td>
+    </tr>
+    <tr>
+      <td>维修内容</td>
+      <td>{{d.data.content}}</td>
+    </tr>
+    <tr>
+      <td>建筑号</td>
+      <td>{{d.data.buildNum}}</td>
+    </tr>
+
+  </tbody>
+</table>
+  
+</script>
+

@@ -1,0 +1,255 @@
+
+<script type="text/html" template>
+  <link rel="stylesheet" href="{{ layui.setter.base }}style/login.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+
+<style>
+  .layadmin-user-login{
+    background-image: url(../../images/login-bg.jpg);
+    position:fixed;
+    top: 0;
+    left: 0;
+    width:100%;
+    height:100%;
+    min-width: 1000px;
+    z-index:-10;
+    zoom: 1;
+    background-color: #fff;
+    background-repeat: no-repeat;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -o-background-size: cover;
+    background-position: center 0;
+    filter: blur(20px);
+  }
+
+  .layadmin-user-login-main{
+    background:#f2f2f2;
+    height:470px;
+    position: absolute;
+    margin: auto;
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    display:none;
+  }
+
+  .layadmin-user-login-header h2{
+    margin-bottom: -23px;
+    font-size: 20px;
+  }
+</style>
+
+
+<div class="layadmin-user-login layadmin-user-display-show" id="LAY-user-login" style="display: none;">
+</div>
+
+<div class="layadmin-user-login-main">
+  <div class="layadmin-user-login-box layadmin-user-login-header">
+    <h2>竞技趣味棋牌服务管理平台</h2>
+    <!--<p>layui 官方出品的单页面后台管理模板系统</p>-->
+  </div>
+  <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
+
+    <div class="layui-form-item">
+      <label class="layadmin-user-login-icon layui-icon layui-icon-username" for="LAY-user-login-username"></label>
+      <input type="text" name="username" id="LAY-user-login-username" lay-verify="required" placeholder="用户名" class="layui-input">
+    </div>
+
+    <div class="layui-form-item">
+      <label class="layadmin-user-login-icon layui-icon layui-icon-cellphone" for="forget-phone"></label>
+      <input type="text" name="phone" id="forget-phone" lay-verify="phone" placeholder="请输入绑定手机号" class="layui-input">
+    </div>
+
+    <div class="layui-form-item">
+      <div class="layui-row">
+        <div class="layui-col-xs7">
+          <label class="layadmin-user-login-icon layui-icon layui-icon-vercode" for="forget-vcode"></label>
+          <input type="text" name="vcode" id="forget-vcode" maxlength="4" lay-verify="required" placeholder="图形验证码" class="layui-input">
+        </div>
+        <div class="layui-col-xs5">
+          <div style="margin-left: 10px;">
+            <img src="getVerifyCodeForget" class="verify-code-img-forget" id="LAY-user-get-vercode">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <div class="layui-row">
+        <div class="layui-col-xs7">
+          <label class="layadmin-user-login-icon layui-icon layui-icon-vercode" for="LAY-user-login-smscode"></label>
+          <input type="text" name="phoneCode" id="LAY-user-login-smscode" lay-verify="required" placeholder="短信验证码" class="layui-input">
+        </div>
+        <div class="layui-col-xs5">
+          <div style="margin-left: 10px;">
+            <button type="button" class="layui-btn layui-btn-primary layui-btn-fluid" id="getPhoneCodeBtn">获取验证码</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="layui-form-item">
+      <label class="layadmin-user-login-icon layui-icon layui-icon-password"></label>
+      <input type="password" name="password" id="pwd1" lay-verify="pass" placeholder="新密码" class="layui-input">
+    </div>
+    <div class="layui-form-item">
+      <label class="layadmin-user-login-icon layui-icon layui-icon-password"></label>
+      <input type="password" name="repass" id="pwd2" lay-verify="required" placeholder="确认密码" class="layui-input">
+    </div>
+
+
+    <div class="layui-form-item">
+      <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="LAY-user-forget-submit">找回密码</button>
+    </div>
+
+  </div>
+
+  <!--<div class="layui-form-item" style="margin-bottom: 20px;">-->
+    <!--<a lay-href="/user/login" class="layadmin-user-jump-change layadmin-link" style="margin-top: 7px;">去登录</a>-->
+  <!--</div>-->
+  <a lay-href="/user/login" class="layadmin-user-jump-change layadmin-link" style="position: absolute;bottom: 20px;right: 20px">去登录</a>
+</div>
+
+<div class="layui-trans layadmin-user-login-footer">
+
+  <!--<p>© 2018 <a href="http://www.layui.com/" target="_blank">layui.com</a></p>-->
+  <p>
+    <!--<span><a href="http://www.layui.com/admin/#get" target="_blank">获取授权</a></span>-->
+    <!--<span><a href="http://www.layui.com/admin/pro/" target="_blank">在线演示</a></span>-->
+    <!--<span><a href="http://www.layui.com/admin/" target="_blank">前往官网</a></span>-->
+  </p>
+</div>
+
+<script type="text/javascript" src="js/md5.js"></script>
+<script>
+    layui.use(['common'], function(){
+        var $ = layui.$
+            ,setter = layui.setter
+            ,admin = layui.admin
+            ,form = layui.form
+            ,router = layui.router();
+
+        form.render();
+        
+    	later(function(){
+    		$('.layadmin-user-login-main').show();
+    	},100);
+    	
+        //刷新注册时的验证码
+        function refreshVerifyCodeForget () {
+            var src = 'getVerifyCodeForget?ms=' + new Date().getTime();
+            $('.verify-code-img-forget').attr('src', src);
+            Lock.unlock();
+        }
+        $('.verify-code-img-forget').click(function(){
+            Lock.lock();
+            refreshVerifyCodeForget();
+        });
+
+
+        $('#getPhoneCodeBtn').click(function(){
+            var seconds = 60;
+            ///手机号验证
+            var phone = $('input[name=phone]').val().trim();
+            var username = $('input[name=username]').val();
+            if(phone == ''){
+                mlayer.error("请输入手机号码")
+                return false;
+            }
+            if(!(/^1[3456789]\d{9}$/.test(phone))){
+                mlayer.error("请输入正确的手机号");
+                return false;
+            }
+
+            //验证码验证
+            var verifyCodePhone = $('input[name=vcode]').val().trim();
+            if(verifyCodePhone == ''){
+                mlayer.error("图形验证码不能为空");
+                return false;
+            }
+            var result = Net.post('sendPhoneCodeForResetPwd', {vcode : verifyCodePhone, phone: phone, username : username});
+            if(result.code == 0) {
+                layer.msg('验证码已发送至你的手机，请注意查收', {
+                    icon: 1
+                    ,shade: 0
+                });
+                countDown();
+            }else {
+                layer.msg("验证码获取失败，原因：" +result.msg, {
+                    icon:2,
+                    shade:0
+                });
+                refreshVerifyCodeForget();
+                return false;
+            }
+
+            function countDown(loop){
+                var btn = $('#getPhoneCodeBtn');
+                seconds--;
+                if(seconds < 0){
+                    btn.removeClass("layui-disabled").removeClass("disabled").html('获取验证码');
+                    btn.prop("disabled", false);
+                    seconds = 60;
+                    clearInterval(timer);
+                } else {
+                    btn.addClass("layui-disabled").addClass('disabled').html(seconds + '秒后重获');
+                    btn.prop("disabled", true);
+                }
+
+                if(!loop){
+                    timer = setInterval(function(){
+                        countDown(true);
+                    }, 1000);
+                }
+            }
+        })
+
+
+
+        //找回密码下一步
+        form.on('submit(LAY-user-forget-submit)', function(obj){
+            Lock.lock()
+            var field = obj.field;
+            var phone = field['phone'].trim();
+            var phoneCode = field['phoneCode'].trim();
+            var password = field['password'].trim();
+            var repass = field['repass'].trim();
+            var username = field['username'].trim();
+            //确认密码
+            if(password == ''){
+                Lock.unlock();
+                return mlayer.error("请输入密码！");
+            }
+            if(repass == ''){
+                Lock.unlock();
+                return mlayer.error("请输入确认密码！")
+            }
+            if(!(/^[\w]{6,12}$/.test(password))){
+                Lock.unlock();
+                return mlayer.error("密码必须6-12位，且只能是字母数字下划线！")
+            }
+            if(password !== repass){
+                Lock.unlock();
+                return mlayer.error('两次密码输入不一致');
+            }
+            var result = Net.post('forgetPwdAndUpdate', {phone : phone , password : hex_md5(password), phoneCode : phoneCode, username : username});
+
+            if(result.code == 0) {
+                mlayer.success('密码重置成功，请重新登录！');
+                later(function(){
+                    location.hash =  '/user/login';
+                })
+            }else {
+                refreshVerifyCodeForget();
+                mlayer.error(result.msg);
+                Lock.unlock();
+            }
+            return false;
+        });
+
+
+    });
+</script>

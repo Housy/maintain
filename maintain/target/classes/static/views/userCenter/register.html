@@ -1,0 +1,139 @@
+
+<script type="text/html" template>
+    <link rel="stylesheet" href="{{ layui.setter.base }}style/login.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+
+<style>
+
+    .layadmin-user-login{
+        background-image: url(images/login-bg.jpg);
+        position:fixed;
+        top: 0;
+        left: 0;
+        width:100%;
+        height:100%;
+        min-width: 1000px;
+        z-index:-10;
+        zoom: 1;
+        background-color: #fff;
+        background-repeat: no-repeat;
+        background-size: cover;
+        -webkit-background-size: cover;
+        -o-background-size: cover;
+        background-position: center 0;
+        filter: blur(20px);
+    }
+
+    .layadmin-user-login-main{
+        background:#f2f2f2;
+        height:372px;
+        position: absolute;
+        margin: auto;
+        left: 0px;
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        display:none;
+    }
+
+    .layadmin-user-login-main {
+        width:415px;
+    }
+
+    .layadmin-user-login-header h2{
+        margin-bottom: -23px;
+        font-size: 20px;
+    }
+
+</style>
+
+
+<div class="layadmin-user-login layadmin-user-display-show" id="LAY-user-login" style="display: none;">
+</div>
+
+<div class="layadmin-user-login-main">
+    <div class="layadmin-user-login-box layadmin-user-login-header">
+        <h2>中北大学宿舍报修管理系统</h2>
+    </div>
+    <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">角色</label>
+            <div class="layui-input-inline">
+                <input type="radio" name="role" value="Student" title="学生" checked>
+                <input type="radio" name="role" value="Worker" title="工人">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">用户名</label>
+            <div class="layui-input-inline">
+                <input name="username" lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">新密码：</label>
+            <div class="layui-input-inline">
+                <input type="password" name="pwd2" lay-verify="required|pass" autocomplete="off" required-msg="请输入新密码" placeholder="请输入新密码" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">确认密码：</label>
+            <div class="layui-input-inline">
+                <input type="password" name="pwd3" lay-verify="required" autocomplete="off" required-msg="请再次输入新密码" placeholder="请再次输入新密码" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label"></label>
+            <div class="layui-input-inline">
+                <button id="login-btn" class="layui-btn layui-btn-fluid" lay-submit lay-filter="register">注册</button>
+            </div>
+        </div>
+        <div class="layui-form-item" style="margin-bottom: 20px;">
+            <a lay-href="/userCenter/login" class="layadmin-user-jump-change layadmin-link" style="margin-top: 7px;">去登陆</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['common'], function(){
+
+        later(function(){
+            $('.layadmin-user-login-main').show();
+        },100);
+
+        renderFormPage();
+
+        //修改密码
+        form.on('submit(register)', function(obj){
+            Lock.lock();
+            var field = obj.field;
+            var username = field['username'].trim();
+            var role = field['role'].trim();
+            var pwd2 = field['pwd2'].trim();
+            var pwd3 = field['pwd3'].trim();
+            if(pwd2 != pwd3){
+                Lock.unlock();
+                $('[name=pwd3]').addError('两次密码输入不一致');
+                return;
+            }
+            var result = Net.post('register', { username : username, role : role, password: pwd2});
+
+            if(result.code == 0) {
+                mlayer.success('注册成功！');
+                later(function(){
+                    location.hash =  '/index';
+                })
+            }else {
+                $('[name=pwd1]').addError(result.msg);
+                Lock.unlock();
+            }
+            return false;
+        });
+
+    });
+</script>

@@ -1,0 +1,33 @@
+
+<script type="text/html" template lay-url="api/adminUser/getById?id={{d.params.id}}">
+
+<table class="layui-table">
+  <colgroup>
+    <col width="50%">
+    <col width="50%">
+    <col>
+  </colgroup>
+  <tbody>
+	<tr>
+      <td>ID</td>
+      <td>{{d.data.id}}</td>
+    </tr>
+    <tr>
+      <td>建筑号</td>
+      <td>{{d.data.buildNum}}</td>
+    </tr>
+    <tr>
+      <td>宿舍号</td>
+      <td>{{d.data.roomNum}}</td>
+    </tr>
+    <tr>
+      <td>维修次数</td>
+      <td>{{d.data.times}}</td>
+    </tr>
+
+
+  </tbody>
+</table>
+  
+</script>
+

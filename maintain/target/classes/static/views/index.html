@@ -1,0 +1,22 @@
+<!-- 默认加载index.html -->
+<script>
+//如果加载的是首页，那么默认打开菜单栏选中的菜单选项
+layui.use('common', function(){
+	console.info('index.html')
+	var setIntervalID = setInterval(function(){
+        var ddsize = $('#LAY-system-side-menu').children('li').first().find('dd').size();
+        let jump = '';
+        if(ddsize != 0) {
+		    jump = $('#LAY-system-side-menu').children('li').first().find('dd').first().data('jump');
+        }else {
+            jump = $('#LAY-system-side-menu').children('li').first().data('jump');
+        }
+		if(jump != null) {
+			clearInterval(setIntervalID);
+			console.info('jump to ' + jump)
+			location.hash = "/" + jump;
+		}
+	}, 100);
+});
+</script>
+

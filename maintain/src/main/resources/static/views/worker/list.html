@@ -1,0 +1,266 @@
+<!-- 面包屑导航 -->
+<div class="layui-card layadmin-header"></div>
+
+<div class="layui-fluid">
+  <div class="layui-card">
+    <!--搜索条件的form-->
+    <form class="layui-form search-form layui-card-header layuiadmin-card-header-auto" lay-filter="app-content-list">
+      <div class="layui-form-item">
+        <div class="layui-inline">
+          <label class="layui-form-label">ID</label>
+          <div class="layui-input-inline">
+            <input type="text" name="id" placeholder="请输入ID" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+
+        <div class="layui-inline">
+          <label class="layui-form-label">手机号</label>
+          <div class="layui-input-inline">
+            <input type="text" name="phone" placeholder="请输入手机号(支持模糊查询)" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+
+        <div class="layui-inline">
+          <label class="layui-form-label">角色</label>
+          <div class="layui-input-inline">
+            <select name="role" lay-filter="role">
+              <option value="">所有</option>
+              <option value="Admin">Admin</option>
+              <option value="Developer">Developer</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="layui-inline">
+          <label class="layui-form-label">是否禁用</label>
+          <div class="layui-input-inline">
+            <select name="isDisabled" lay-filter="isDisabled">
+              <option value="">所有</option>
+              <option value="1">已禁用</option>
+              <option value="0">未禁用</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="layui-inline">
+          <label class="layui-form-label">创建时间</label>
+          <div class="layui-input-inline">
+            <!-- name和id固定为"timeRange"，则会自动渲染 -->
+            <input type="text" id="timeRange" name="timeRange" placeholder="请选择时间区间" autocomplete="off" class="layui-input" readonly>
+          </div>
+        </div>
+
+        <div class="layui-inline">
+          <button type="button" class="layui-btn" lay-submit lay-filter="LAY-SEARCH-BTN">搜索</button>
+          <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+      </div>
+    </form>
+
+    <div class="layui-card-body">
+
+      <!--上方功能按钮-->
+      <div class="function-list">
+        <button class="layui-btn layuiadmin-btn-list" data-type="add"><i class="layui-icon layui-icon-add-1"></i>添加</button>
+        <button class="layui-btn layui-btn-danger layuiadmin-btn-list" data-type="batchdel"><i class="layui-icon layui-icon-delete"></i>删除</button>
+        <button class="layui-btn layuiadmin-btn-list" data-type="other">其他功能</button>
+      </div>
+
+      <!--原始表格-->
+      <table id="LAY-TABLE" lay-filter="LAY-TABLE"></table>
+
+      <!--操作列-->
+      <script type="text/html" id="toolbar">
+        <div class="table-btns">
+          <a class="layui-btn layui-btn-xs" lay-event="detail"><i class="layui-icon layui-icon-list"></i>详情</a>
+          <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+          {{# if(d.isDisabled == 1){ }}
+          <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="enable">启用</a>
+          {{# }else{ }}
+          <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="disable">禁用</a>
+          {{# } }}
+          <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
+          <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="other">其他</a>
+        </div>
+      </script>
+
+    </div>
+  </div>
+</div>
+
+<script>
+
+    var module = 'worker';
+    var moduleName = '用户';
+
+    layui.use(['common'], function(){
+
+        renderDate({
+            min : '1900-1-1'
+        });
+
+        var pageList = new PageList({module : module});
+        pageList.render({
+            //列配置
+            cols: [[
+                {type : 'checkbox'},
+                {field: 'id', title: 'ID', sort : true},
+                {field: 'avatarUrl', title: '头像', templet : templetDef('avatarUrl', function(cur, d){
+                        return wrapImage(cur);
+                    })},
+                {field: 'username', title: '用户名'},
+                {field: 'phone', title: '手机号', edit : 'text'},
+                {field: 'birthday', title: '生日', templet : templetDef('avatarUrl', function(cur, d){
+                        return ms2str(d.birthday, 'date');
+                    })},
+                {field: 'gender', title: '性别', templet : function(d){
+                        if(d.gender == 1) {
+                            return '男';
+                        }else {
+                            return '女';
+                        }
+                    }},
+                {field: 'role', title: '角色'},
+                {field: 'permissions', title: '权限', templet : function(d){
+                        return d.permissions.join(',');
+                    }},
+                {field: 'isDisabled', title: '是否禁用', templet : function(d){
+                        return '<input type="checkbox" lay-filter="isDisabled" data-id="'+d.id+'" lay-skin="switch" lay-text="已禁用|未禁用" '+ (d.isDisabled == 1 ? 'checked' : '') +' >';
+                    }},
+                {field: 'isDisabled', title: '是否是Vip', templet : function(d){
+                        return '<input type="checkbox" lay-filter="isVip" data-id="'+d.id+'" lay-skin="switch" lay-text="是|否" '+ (d.isVip == 1 ? 'checked' : '') +' >';
+                    }},
+                {field: 'sortCount', title: '排序字段', sort : true, edit : 'text'},
+                {field: 'showDate', title: '创建时间', sort : true},
+                {title: '操作',  align: 'center', toolbar: '#toolbar'}
+            ]],
+            initSort : {
+                field : 'id',
+                type : 'desc'
+            },
+            //菜单上面的工具栏
+            funs : {
+                other : function(){
+                    var ids = pageList.getCheckedIds();
+                    mlayer.success(ids.join(','));
+                }
+            },
+            //编辑单元格
+            cellEdit : {
+                verify : {
+                    //字段phone必须和字段一致
+                    phone : function(val, d){
+                        if(val.length != 11) {
+                            return '手机号必须11位';
+                        }
+                    }
+                }
+            },
+            //表格内的开关
+            tableSwitches : [
+                {
+                    field : 'isDisabled'
+                },
+                {
+                    field : 'isVip'
+                }
+            ],
+            //各种回调
+            callbacks : {
+                add : {
+                    title : '添加' + moduleName,
+                    confirmMsg : '确定要提交吗？',
+                    debug : false,
+                    //页面打开回调
+                    openCallback : function(){
+                        //渲染form表单，参数为自定义验证
+                        renderFormPage({
+
+                        });
+                        renderDate({
+                            elem : '[name=birthday]',
+                            range : false,
+                            min: '1990-1-1'
+                        });
+                        this.avatarUrlObj = initUploadFile({
+                            elem : '[name=avatarUrl]',
+                            exts : 'jpg|png',
+                            data : {isPrivate : false} //默认false，可不填
+                        });
+                    },
+                    //表单提交前回调
+                    submitCallback : function(formData){
+                        formData.permissions = getCheckboxValues('.permissions');
+                        formData.avatarUrl = this.avatarUrlObj.getKey();
+                        formData.birthday = str2ms(formData.birthday);
+                        //提交之前回调
+                        console.info('提交之前回调');
+                    },
+                    isFull : false, //是否全屏
+                    area : ['560px', '500px']
+                },
+                edit : {
+                    title : '编辑' + moduleName,
+                    confirmMsg : '确定要提交吗？',
+                    debug : false,
+                    //页面打开回调
+                    openCallback : function(row){
+                        //渲染form表单，参数为自定义验证
+                        renderFormPage({
+
+                        });
+
+                        this.avatarUrlObj = initUploadFile({
+                            elem : '[name=avatarUrl]',
+                            exts : 'jpg|png',
+                            data : {isPrivate : false} //默认false，可不填
+                        });
+                    },
+                    //数据回显回调
+                    fillDataCallback : function(row){
+                        row.permissions.forEach(function(o){
+                            $('.permissions[value='+o+']').prop('checked', true);
+                        })
+                        renderDate({
+                            elem : '[name=birthday]',
+                            value : new Date(parseInt(row.birthday)),
+                            range : false,
+                            min: '1990-1-1'
+                        });
+                    },
+                    //提交之前的回调
+                    submitCallback : function(formData){
+                        formData.permissions = getCheckboxValues('.permissions');
+                        formData.avatarUrl = this.avatarUrlObj.getKey();
+                        formData.birthday = str2ms(formData.birthday);
+                    },
+                    isFull : false,
+                    area : ['560px', '500px']
+                },
+                tableTool : {
+                    callback : function (obj) {
+                        var data = obj.data; //获得当前行数据
+                        var event = obj.event; //获得 lay-event 对应的值
+                        var tr = obj.tr; //获得当前行 tr 的DOM对象
+                        if(event == 'other') {
+                            layer.msg('其他按钮');
+                        }
+                    },
+                    confirms : [
+                        {
+                            event : 'disable', //lay-event的值
+                            method : 'disable',   //后台接口的名字
+                            ask : '确定要禁用此账号吗？'  //提示用户的文字
+                        },
+                        {
+                            event : 'enable',
+                            method : 'enable',
+                            ask : '确定要启用此账号吗？'
+                        },
+                    ]
+                }
+            },
+
+        });
+    });
+</script>

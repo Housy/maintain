@@ -1,0 +1,104 @@
+
+<title>设置我的密码</title>
+<style>
+    .layui-input{
+        width: 360px;
+    }
+</style>
+<!-- 面包屑导航 -->
+<div class="layui-card layadmin-header"></div>
+
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+
+                <div class="layui-card-body" pad15>
+                    <blockquote class="layui-elem-quote layui-quote-nm">
+                        为保证账户安全，请定期更换密码
+                    </blockquote>
+                    <form class="layui-form custom-form FORM updatePwd">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">用户名：</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="username" autocomplete="off" class="layui-input readonly" readonly>
+                            </div>
+                        </div>
+
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">原密码：</label>
+                            <div class="layui-input-inline">
+                                <input type="password" name="pwd1" lay-verify="required"  autocomplete="off" required-msg="请输入当前密码" placeholder="请输入当前密码" id="LAY_password" class="layui-input">
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">新密码：</label>
+                            <div class="layui-input-inline">
+                                <input type="password" name="pwd2" lay-verify="required|pass" autocomplete="off" required-msg="请输入新密码" placeholder="请输入新密码" class="layui-input">
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">确认密码：</label>
+                            <div class="layui-input-inline">
+                                <input type="password" name="pwd3" lay-verify="required" autocomplete="off" required-msg="请再次输入新密码" placeholder="请再次输入新密码" class="layui-input">
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label"></label>
+                            <div class="layui-input-inline">
+                                <button class="layui-btn form-submit-btn" type="button" lay-submit lay-filter="confirmUpdate">确认修改</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="js/md5.js"></script>
+<script>
+    layui.use(['common'], function () {
+
+        // 填充用户名
+        var result =  Net.get('api/getLoginUserInfo');
+        if(result.code == 0){
+            var data = result.data;
+            $('input[name=username]').val(data.username);
+        }
+        renderRequiredMark();
+
+        renderFormPage();
+
+        //修改密码
+        form.on('submit(confirmUpdate)', function(obj){
+            Lock.lock()
+            var field = obj.field;
+            var pwd1 = field['pwd1'].trim();
+            var pwd2 = field['pwd2'].trim();
+            var pwd3 = field['pwd3'].trim();
+            if(pwd2 != pwd3){
+                Lock.unlock();
+                $('[name=pwd3]').addError('两次密码输入不一致');
+                return;
+            }
+            var result = Net.post('api/updatePwd', { newPwd : pwd2, oldPwd: pwd1});
+
+            if(result.code == 0) {
+                mlayer.success('密码修改成功！');
+                later(function(){
+                    location.hash =  '/index';
+                })
+            }else {
+                $('[name=pwd1]').addError(result.msg);
+                Lock.unlock();
+            }
+            return false;
+        });
+    })
+</script>

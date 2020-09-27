@@ -1,0 +1,83 @@
+
+<title>修改个人信息</title>
+<style>
+    .layui-input{
+
+    }
+</style>
+<!-- 面包屑导航 -->
+<div class="layui-card layadmin-header"></div>
+
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+
+                <div class="layui-card-body" pad15>
+                    <blockquote class="layui-elem-quote layui-quote-nm">
+                        个人信息
+                    </blockquote>
+                    <form class="layui-form custom-form FORM updatePwd" lay-filter="myInfo">
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">姓名:</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="name" autocomplete="off" class="layui-input readonly">
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">性别：</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="gender" autocomplete="off" class="layui-input readonly" readonly>
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">工号:</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="workNum" autocomplete="off" class="layui-input readonly">
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="js/md5.js"></script>
+<script>
+    layui.use(['common'], function () {
+
+        // 填充用户名
+        var result =  Net.get('api/getMyInfo');
+        if(result.data != null){
+            var w = result.data;
+            $('input[name=name]').val(w.name);
+            $('input[name=workNum]').val(w.workNum);
+            if(w.gender == 1)
+            $('input[name=gender]').val("男");
+            else $('input[name=gender]').val("女");
+
+        }
+
+        renderFormPage();
+
+        //修改信息
+        form.on('submit(confirmUpdate)', function(obj){
+            Lock.lock()
+            var field = obj.field;
+            var result = Net.post('api/updateWorker', field);
+
+            if(result.code == 0) {
+                mlayer.success('保存成功！');
+            }else {
+                mlayer.success('保存失败！');
+                Lock.unlock();
+            }
+            return false;
+        });
+    })
+</script>

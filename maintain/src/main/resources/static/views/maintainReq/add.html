@@ -1,0 +1,57 @@
+{[(  )]}
+<style>
+</style>
+
+<div class="layui-form ADD" lay-filter="FORM-ADD" id="layuiadmin-app-form-list" style="padding: 20px 30px 0 0;">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">学生学号</label>
+        <div class="layui-input-inline">
+            <input name="studentId" lay-verify="required" placeholder="请输入学号" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">建筑号</label>
+        <div class="layui-input-inline">
+            <input name="buildNum" lay-verify="required" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">联系方式</label>
+        <div class="layui-input-inline">
+            <input name="phone" lay-verify="required" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">维修类型</label>
+        <div class="layui-input-inline">
+            <div lay-verify="required" required-type="radio" required-msg="请选择性别">
+                <input type="radio" name="type" value="1" title="电器问题">
+                <input type="radio" name="type" value="0" title="门窗">
+                <input type="radio" name="type" value="2" title="阳台故障">
+                <input type="radio" name="type" value="3" title="桌椅问题">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">详细描述</label>
+        <div class="layui-input-inline">
+            <textarea name="content" lay-verify="required" placeholder="请描述详细信息" autocomplete="off" class="layui-input" style="height: 100px;"/>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label"></label>
+        <div class="layui-input-inline">
+            <input type="button" lay-submit lay-filter="ADD-SUBMIT" value="提交" class="layui-btn">
+            <button type="button" class="layui-btn layui-btn-primary form-cancel">取消</button>
+        </div>
+    </div>
+</div>
+
+<script>
+</script>
